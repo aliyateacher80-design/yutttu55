@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Ақылды Роботпен Блиц-сұхбат</title><style>
+:root{color-scheme:dark;--bg:#050521;--t:#f2f4ff;--c:#7df9ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0,#1b0f5c,var(--bg) 60%);color:var(--t);font-family:system-ui,"Segoe UI",Roboto,Arial,sans-serif;overflow-x:hidden}
+#bg,#cf{position:fixed;inset:0;width:100%;height:100%;z-index:0}#cf{z-index:5;pointer-events:none}
+main{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:10px 14px 30px;text-align:center}
+button{font:inherit;color:inherit;cursor:pointer}.bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ib{background:rgba(255,255,255,.1);border:2px solid var(--c);border-radius:14px;padding:8px 14px;font-size:1.05rem;margin:3px}.ib.on{background:var(--c);color:#10103a;font-weight:800}
+h1{font-size:clamp(1.6rem,4vw,2.6rem);margin:10px 0 4px;text-shadow:0 0 18px var(--c)}.sub{color:#b9c4ff;margin:0 0 12px;font-size:1.15rem}
+#rw{display:inline-block;cursor:pointer;margin-top:8px}#rb{animation:fl 3s ease-in-out infinite;filter:drop-shadow(0 0 16px #7df9ff88)}
+@keyframes fl{50%{transform:translateY(-10px)}}.eye{animation:bl 4s infinite;transform-box:fill-box;transform-origin:center}@keyframes bl{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+#arm{transform-box:fill-box;transform-origin:50% 10%}.wave #arm{animation:wv .6s 4}@keyframes wv{50%{transform:rotate(-140deg)}}
+.jump{animation:jp .6s 2}@keyframes jp{40%{transform:translateY(-35px) scale(1.06)}}
+.bubble{position:relative;background:#fff;color:#16124a;border-radius:24px;padding:14px 20px;font-size:clamp(1.15rem,2.6vw,1.6rem);font-weight:700;max-width:780px;margin:12px auto 10px;box-shadow:0 0 24px #7df9ff66}
+.bubble:before{content:"";position:absolute;top:-13px;left:50%;transform:translateX(-50%);border:14px solid transparent;border-top:0;border-bottom-color:#fff}
+.row{display:flex;align-items:center;justify-content:center;gap:16px;font-size:1.3rem;font-weight:800}
+#rc{transition:stroke-dashoffset .1s linear}#ring.danger #rc{stroke:#ff3b5c}#ring.danger #rt{fill:#ff3b5c}#ring.danger{animation:pu .5s infinite}@keyframes pu{50%{transform:scale(1.1)}}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.o{min-height:98px;border:0;border-radius:24px;font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:800;color:#fff;padding:12px;box-shadow:0 0 22px var(--g),inset 0 -6px 0 rgba(0,0,0,.25);text-shadow:0 2px 3px rgba(0,0,0,.4)}
+.o b{display:inline-block;background:rgba(0,0,0,.3);border-radius:12px;padding:2px 12px;margin-right:10px;font-size:1.5em}.o:active{transform:scale(.97)}
+.o0{background:#14b866;--g:#19d37a}.o1{background:#2f6fe0;--g:#2f8bff}.o2{background:#f08a1c;--g:#ff9a2e}.o3{background:#8a46e8;--g:#a45bff}
+.o.good{outline:6px solid #fff;animation:jp .5s}.o.bad{opacity:.3}.pz #o{filter:blur(10px);pointer-events:none}
+.go{background:linear-gradient(90deg,#ff4fd8,#7df9ff);color:#10103a;border:0;border-radius:20px;padding:16px 34px;font-size:1.5rem;font-weight:900;box-shadow:0 0 28px #ff4fd8aa}
+.st{font-size:3rem;letter-spacing:6px;color:#ffd84a;text-shadow:0 0 14px #ffb300}h2{margin:6px 0;font-size:2.2rem}
+.rv{list-style:none;padding:0;text-align:left;max-width:780px;margin:10px auto}.rv li{background:rgba(255,255,255,.09);border-radius:14px;padding:10px 14px;margin:6px 0}
+@media(max-width:560px){.opts{grid-template-columns:1fr}}
+</style></head><body><canvas id="bg"></canvas><canvas id="cf"></canvas><main>
+<div class="bar"><button class="ib" id="bm">🎵 Музыка</button><button class="ib" id="bv">🗣️ Дауыс</button><label class="ib">🔊 <input id="vol" type="range" min="0" max="1" step=".1" value=".6"></label><button class="ib" id="bp">⏸ Кідірту</button></div>
+<div id="rw" title="Роботты бас!"><svg id="rb" viewBox="0 0 200 230" width="190" height="210"><line x1="100" y1="24" x2="100" y2="50" stroke="#7df9ff" stroke-width="5"/><circle cx="100" cy="18" r="9" fill="#ff4fd8"/><rect x="26" y="84" width="14" height="34" rx="7" fill="#a45bff"/><rect x="160" y="84" width="14" height="34" rx="7" fill="#a45bff"/><rect x="40" y="48" width="120" height="100" rx="34" fill="#dfe8ff" stroke="#7df9ff" stroke-width="5"/><rect x="54" y="62" width="92" height="70" rx="24" fill="#0d1240"/><ellipse class="eye" cx="80" cy="92" rx="11" ry="13" fill="#7df9ff"/><ellipse class="eye" cx="120" cy="92" rx="11" ry="13" fill="#7df9ff"/><path id="mo" d="M78 112Q100 134 122 112" stroke="#ff4fd8" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="36" y="162" width="20" height="46" rx="10" fill="#a45bff"/><g id="arm"><rect x="144" y="162" width="20" height="46" rx="10" fill="#a45bff"/></g><rect x="60" y="156" width="80" height="62" rx="20" fill="#dfe8ff" stroke="#7df9ff" stroke-width="5"/><circle cx="100" cy="186" r="12" fill="#ff4fd8"/></svg></div>
+<div class="bubble" id="bb"></div>
+<section id="s0"><h1>🚀 Ақылды Роботпен Блиц-сұхбат</h1><p class="sub">5-сынып · Информатика · Компьютерлік графика және оның түрлері</p><div><button class="ib vb on" data-v="0">1-нұсқа · 5 «А»</button><button class="ib vb" data-v="1">2-нұсқа · 5 «Ә»</button><button class="ib vb" data-v="2">3-нұсқа · 5 «Б»</button></div><p><button class="go" id="go">🚀 Бастау</button></p></section>
+<section id="s1" hidden><div class="row"><svg id="ring" viewBox="0 0 100 100" width="84" height="84"><circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="9"/><circle id="rc" cx="50" cy="50" r="45" fill="none" stroke="#7df9ff" stroke-width="9" stroke-linecap="round" stroke-dasharray="283" transform="rotate(-90 50 50)"/><text id="rt" x="50" y="62" text-anchor="middle" font-size="34" font-weight="800" fill="#fff">20</text></svg><div id="pg"></div></div><div class="opts" id="o"></div><button class="go" id="nx" hidden></button></section>
+<section id="s2" hidden><div class="st" id="st"></div><h2 id="sc"></h2><ul class="rv" id="rv"></ul><p><button class="go" id="again">🔁 Қайта ойнау</button></p><p>Басқа нұсқа: <button class="ib vb" data-v="0">1-нұсқа</button><button class="ib vb" data-v="1">2-нұсқа</button><button class="ib vb" data-v="2">3-нұсқа</button></p></section>
+</main><script>
+const Q=[[
+["Растрлық графиканың ең кіші негізгі элементі қандай?",["Сызық","Пиксель","Үшбұрыш","Формула"],1,"Растрлық сурет миллиондаған ұсақ шаршы нүктеден, яғни пиксельден тұрады."],
+["Векторлық графиканың басты артықшылығы не?",["Үлкейткенде сапасы жоғалмайды","Фотоны ең жақсы көрсетеді","Пиксельдері өте көп","Файлы ең үлкен"],0,"Векторлық сурет формулалармен салынады, сондықтан қанша үлкейтсең де анық қалады."],
+["RGB моделінің 3 негізгі түсі қандай?",["Қара, ақ, сұр","Сары, көк, қызыл","Қызыл, жасыл, көк","Жасыл, сары, қызғылт"],2,"RGB: Red (қызыл), Green (жасыл), Blue (көк). Экран осы үш жарықты араластырады."],
+["Баспаханада қағазға шығаруға арналған түс моделі қайсы?",["RGB","Пиксель","Вектор","CMYK"],3,"CMYK: Cyan, Magenta, Yellow, Key (қара). Принтер осы 4 бояуды қолданады."],
+["Paint қандай программа?",["Графикалық редактор","Мәтіндік редактор","Электрондық кесте","Браузер"],0,"Paint – сурет салуға арналған графикалық редактор."]],[
+["Суретті қатты үлкейткенде шаршы нүктелер көрінсе, бұл қандай графика?",["Векторлық","Растрлық","Дыбыстық","3D"],1,"Растрлық сурет пиксельден тұрады, сондықтан үлкейткенде нүктелері көрінеді."],
+["Логотип пен таңбаны қандай графикада жасаған тиімді?",["Растрлық","Мәтіндік","Векторлық","Пиксельдік"],2,"Логотип үлкен плакатта да, кіші белгіде де анық болуы үшін векторлық графика керек."],
+["Экранда түстер қандай модельмен көрсетіледі?",["RGB","CMYK","Пиксель","Вектор"],0,"Экран жарық шығарады, сондықтан RGB моделі қолданылады."],
+["CMYK-тегі «K» әрпі қай түсті білдіреді?",["Көк","Сары","Қызыл","Қара"],3,"K — Key, яғни қара түс. Баспада қара бояу бөлек қолданылады."],
+["Фотосурет қандай графикаға жатады?",["Векторлық","Дыбыстық","Растрлық","Мәтіндік"],2,"Фотосурет пиксельден тұрады, сондықтан ол растрлық графикаға жатады."]],[
+["Ұзындығы, ені және биіктігі бар нысандарды жасайтын графика қайсы?",["Растрлық","Векторлық","3D","Фракталдық"],2,"3D графика көлемді нысандарды үш бағытта салады."],
+["RGB-де үш түсті толық жарықпен араластырсақ, қандай түс шығады?",["Қара","Ақ","Сұр","Қоңыр"],1,"Жарық түстері қосылғанда ақ түс шығады."],
+["Векторлық графика неден құралады?",["Сызықтар, қисықтар және формулалардан","Тек пиксельден","Тек фотодан","Дыбыс толқынынан"],0,"Вектор – геометриялық фигуралар мен олардың формулалары."],
+["Төмендегі қай формат растрлық кескін?",["SVG","CDR","AI","JPG"],3,"JPG – пиксельден тұратын растрлық фото форматы."],
+["CMYK-тің 4 түсі қайсысы?",["Қызыл, жасыл, көк, ақ","Қара, ақ, сұр, сары","Cyan, Magenta, Yellow, Key","Red, Green, Blue, Key"],2,"Cyan (көгілдір), Magenta (қызғылт), Yellow (сары), Key (қара)."]]];
+const $=s=>document.querySelector(s),L='АБВГ',CC=['#7df9ff','#ff4fd8','#ffd84a','#19d37a','#a45bff'];
+let AC,G,mus=1,vo=1,vol=.6,v=0,i=0,sc=0,log=[],t=20,iv,pz=0,lock=0,mt,k0=0,ls=99;
+function au(){if(!AC){AC=new(window.AudioContext||window.webkitAudioContext)();G=AC.createGain();G.connect(AC.destination)}G.gain.value=vol;if(AC.state==='suspended')AC.resume()}
+function bz(f,d=.15,ty='sine',a=0,g=.3){if(!AC)return;const o=AC.createOscillator(),e=AC.createGain(),s=AC.currentTime+a;o.type=ty;o.frequency.value=f;e.gain.setValueAtTime(g,s);e.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(e);e.connect(G);o.start(s);o.stop(s+d+.02)}
+const N=[523,659,784,659,587,740,880,740];
+function mu(){clearInterval(mt);if(mus&&!pz&&AC)mt=setInterval(()=>bz(N[k0++%8],.28,'triangle',0,.07),340)}
+function sp(x){if(!vo||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(x);u.lang='kk-KZ';u.volume=vol;speechSynthesis.speak(u)}
+function mood(m){$('#mo').setAttribute('d',{h:'M78 112Q100 134 122 112',s:'M78 128Q100 108 122 128',t:'M84 122H116'}[m])}
+function say(x){$('#bb').textContent=x;sp(x)}
+function show(id){['s0','s1','s2'].forEach(x=>$('#'+x).hidden=x!==id)}
+function jump(){const w=$('#rw');w.classList.remove('jump');void w.offsetWidth;w.classList.add('jump')}
+function upd(){$('#rc').style.strokeDashoffset=283*(1-t/20);$('#rt').textContent=Math.max(0,Math.ceil(t));$('#ring').classList.toggle('danger',t<=5)}
+function begin(){au();i=0;sc=0;log=[];show('s1');mu();ask()}
+function ask(){lock=0;const q=Q[v][i];$('#pg').textContent='Сұрақ '+(i+1)+' / 5';
+$('#o').innerHTML=q[1].map((o,k)=>`<button class="o o${k}" data-k="${k}"><b>${L[k]}</b>${o}</button>`).join('');
+$('#nx').hidden=1;mood('t');say(q[0]);t=20;ls=99;upd();clearInterval(iv);iv=setInterval(tk,100)}
+function tk(){if(pz)return;t-=.1;if(t<=5&&t>0&&Math.ceil(t)!==ls){ls=Math.ceil(t);bz(1000,.12,'square',0,.18)}upd();if(t<=0)ans(-1)}
+function ans(k){if(lock)return;lock=1;clearInterval(iv);const q=Q[v][i],ok=k===q[2];log.push([q[0],q[1][q[2]],ok]);if(ok)sc++;
+document.querySelectorAll('.o').forEach((b,j)=>b.classList.add(j===q[2]?'good':'bad'));let m;
+if(ok){mood('h');jump();[660,880,1320].forEach((f,j)=>bz(f,.25,'triangle',j*.1,.3));m='Дұрыс! 🎉 '+q[3]}
+else{mood('s');bz(180,.4,'sawtooth',0,.25);m=(k<0?'Уақыт бітті! ⏰ ':'Ойланайық! 🤔 ')+'Дұрыс жауап: '+L[q[2]]+') '+q[1][q[2]]+'. '+q[3]}
+say(m);$('#nx').textContent=i<4?'Келесі сұрақ ▶':'Нәтижені көру 🏆';$('#nx').hidden=0}
+function end(){clearInterval(iv);show('s2');mood('h');jump();$('#st').textContent='★'.repeat(sc)+'☆'.repeat(5-sc);$('#sc').textContent=sc+' / 5';
+say(sc===5?'Жарайсыңдар, 5-сынып! Компьютерлік графика, RGB және CMYK тақырыбын 100% меңгеріпсіңдер! Баға: 5':sc>=3?'Жақсы, 5-сынып! '+sc+' сұраққа дұрыс жауап бердіңдер. Қателескен жерлерді бірге қарап шығайық!':'Жарайсыңдар, талпынғандарың үшін! Ережені қайталап, қайта ойнап көрейік!');
+$('#rv').innerHTML=log.map(l=>`<li>${l[2]?'✅':'❌'} ${l[0]} <b>→ ${l[1]}</b></li>`).join('');
+[523,659,784,1047].forEach((f,j)=>bz(f,.3,'triangle',j*.12,.3));boom();setTimeout(boom,700)}
+$('#o').onclick=e=>{const b=e.target.closest('.o');if(b&&!pz){au();ans(+b.dataset.k)}};
+$('#nx').onclick=()=>{i++;i<5?ask():end()};$('#go').onclick=begin;$('#again').onclick=begin;
+document.querySelectorAll('.vb').forEach(b=>b.onclick=()=>{v=+b.dataset.v;document.querySelectorAll('.vb').forEach(x=>x.classList.toggle('on',+x.dataset.v===v));if(b.closest('#s2'))begin()});
+$('#bm').onclick=()=>{au();mus=!mus;$('#bm').style.opacity=mus?1:.45;mu()};
+$('#bv').onclick=()=>{vo=!vo;$('#bv').style.opacity=vo?1:.45;if(!vo&&window.speechSynthesis)speechSynthesis.cancel()};
+$('#vol').oninput=e=>{vol=+e.target.value;if(G)G.gain.value=vol};
+$('#bp').onclick=()=>{pz=!pz;$('#bp').textContent=pz?'▶ Жалғастыру':'⏸ Кідірту';document.body.classList.toggle('pz',pz);if(pz){clearInterval(mt);if(window.speechSynthesis)speechSynthesis.cancel()}else mu()};
+$('#rw').onclick=e=>{au();const w=e.currentTarget;w.classList.remove('wave');void w.offsetWidth;w.classList.add('wave');mood('h');say('Сәлем, достар! Мен – Ақылды Робот! 👋');bz(880,.1);bz(1175,.15,'sine',.1)};
+mood('h');$('#bb').textContent='Сәлем! Мен – Ақылды Робот. Нұсқаны таңдап, «Бастау» батырмасын бас!';
+const c=$('#bg'),x=c.getContext('2d');let W,H,S=[],RP=[];
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();addEventListener('resize',rs);
+for(let n=0;n<26;n++)S.push({n,x:Math.random()*W,y:Math.random()*H,r:18+Math.random()*34,a:Math.random()*6,b:Math.random()*6,va:(Math.random()-.5)*.02,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,ty:n%5,c:CC[n%5]});
+const V=[],E=[];for(let a=0;a<8;a++)V.push([a&1?1:-1,a&2?1:-1,a&4?1:-1]);
+for(let a=0;a<8;a++)for(let b=a+1;b<8;b++){const d=a^b;if(d===1||d===2||d===4)E.push([a,b])}
+function poly(s,n){x.beginPath();for(let j=0;j<n;j++){const q=s.a+j*6.2832/n;x[j?'lineTo':'moveTo'](s.x+Math.cos(q)*s.r,s.y+Math.sin(q)*s.r)}x.closePath();x.stroke()}
+function draw(){x.clearRect(0,0,W,H);x.lineWidth=2;
+S.forEach(s=>{s.x+=s.vx;s.y+=s.vy;s.a+=s.va;s.b+=s.va*.7;if(s.x<-60)s.x=W+60;if(s.x>W+60)s.x=-60;if(s.y<-60)s.y=H+60;if(s.y>H+60)s.y=-60;
+x.strokeStyle=s.c;x.fillStyle=s.c;x.shadowColor=s.c;x.shadowBlur=12;x.globalAlpha=.55;
+if(s.ty===0){const ca=Math.cos(s.a),sa=Math.sin(s.a),cb=Math.cos(s.b),sb=Math.sin(s.b);const P=V.map(p=>{const X1=p[0]*ca+p[2]*sa,Z1=-p[0]*sa+p[2]*ca,Y1=p[1]*cb-Z1*sb;return[s.x+X1*s.r*.6,s.y+Y1*s.r*.6]});x.beginPath();E.forEach(e=>{x.moveTo(P[e[0]][0],P[e[0]][1]);x.lineTo(P[e[1]][0],P[e[1]][1])});x.stroke()}
+else if(s.ty===1)poly(s,3);else if(s.ty===2)poly(s,6);
+else if(s.ty===3){for(let a=0;a<3;a++)for(let b=0;b<3;b++){x.globalAlpha=(a+b)%2?.7:.3;x.fillRect(s.x+a*12-18,s.y+b*12-18,10,10)}}
+else{x.globalCompositeOperation='lighter';(s.n%2?['#00e5ff','#ff2dd0','#ffe600']:['#ff2d2d','#2dff6a','#2d6bff']).forEach((cc,j)=>{x.strokeStyle=cc;x.beginPath();x.arc(s.x+Math.cos(s.a+j*2.1)*s.r*.35,s.y+Math.sin(s.a+j*2.1)*s.r*.35,s.r*.6,0,6.2832);x.stroke()});x.globalCompositeOperation='source-over'}});
+RP=RP.filter(r=>r.a>.02);RP.forEach(r=>{r.r+=5;r.a*=.95;x.strokeStyle='#7df9ff';x.shadowColor='#7df9ff';x.shadowBlur=18;x.globalAlpha=r.a;x.lineWidth=4;x.beginPath();x.arc(r.x,r.y,r.r,0,6.2832);x.stroke()});x.globalAlpha=1;
+requestAnimationFrame(draw)}draw();
+addEventListener('pointerdown',e=>RP.push({x:e.clientX,y:e.clientY,r:6,a:1}));
+const cf=$('#cf'),y=cf.getContext('2d');let PT=[],run=0;
+function boom(){cf.width=innerWidth;cf.height=innerHeight;for(let n=0;n<180;n++)PT.push({x:innerWidth/2,y:innerHeight*.35,vx:(Math.random()-.5)*16,vy:-Math.random()*14-3,c:CC[n%5],s:6+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.4,l:140+Math.random()*60});if(!run){run=1;fl()}}
+function fl(){y.clearRect(0,0,cf.width,cf.height);PT=PT.filter(p=>p.l>0);PT.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.3;p.vx*=.99;p.r+=p.vr;p.l--;y.save();y.translate(p.x,p.y);y.rotate(p.r);y.fillStyle=p.c;y.globalAlpha=Math.min(1,p.l/40);y.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);y.restore()});if(PT.length)requestAnimationFrame(fl);else run=0}
+</script></body></html>
